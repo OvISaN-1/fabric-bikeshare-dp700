@@ -126,9 +126,9 @@ spark.sql("DESCRIBE HISTORY dbo.bikepoint_status") \
 # In[8]:
 
 
-# PARAMETERS CELL (toggled as a parameter cell in Fabric). Defaults only.
-# At run time the pipeline injects a new cell right below this one that overwrites these values.
-# T-SQL comparison: like a stored procedure parameter, but the caller sets it per run.
+# Parameter cell (toggled in Fabric). These are only defaults.
+# When the pipeline runs, it adds a cell right below this one with its own values.
+# Think of it as a stored procedure parameter that the caller sets on every run.
 p_run_label = "manual"
 
 
@@ -141,9 +141,9 @@ print(f"Run label: {p_run_label}")
 # In[10]:
 
 
-# Return a value to the pipeline. Exit values are ALWAYS strings.
-# Keep it at top level. Inside try/except the exit does not take effect.
-# Interactively this raises an exception on purpose and the session stays alive.
-# silver.bikepoint_status is overwritten each run, so its count = rows of this batch
+# Hand the row count back to the pipeline. Exit values are always strings, hence str().
+# Keep this call at the top level: inside try/except the exit does nothing.
+# Run by hand, it raises an exception on purpose and the session stays alive.
+# The table is overwritten on every run, so its count is the size of this batch.
 notebookutils.notebook.exit(str(spark.table("dbo.bikepoint_status").count()))
 

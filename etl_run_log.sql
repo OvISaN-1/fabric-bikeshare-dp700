@@ -1,6 +1,6 @@
--- Run log: one row per pipeline run, written by the last pipeline activity.
--- Fabric Warehouse: no inline PK and no default constraints in CREATE TABLE.
--- DATETIME2 precision is capped at 6.
+-- One row per pipeline run, written by the last activity in the pipeline.
+-- Fabric Warehouse takes no inline primary key and no default constraints in CREATE TABLE.
+-- DATETIME2 precision stops at 6.
 CREATE TABLE gold.etl_run_log
 (
     pipeline_run_id  VARCHAR(50)  NOT NULL,
@@ -10,6 +10,6 @@ CREATE TABLE gold.etl_run_log
     logged_utc       DATETIME2(6) NOT NULL
 );
 
--- Constraint after the table. NONCLUSTERED and NOT ENFORCED (PK columns must be NOT NULL).
+-- The key goes in after the table, as NONCLUSTERED and NOT ENFORCED. Key columns must be NOT NULL.
 ALTER TABLE gold.etl_run_log
     ADD CONSTRAINT pk_etl_run_log PRIMARY KEY NONCLUSTERED (pipeline_run_id) NOT ENFORCED;

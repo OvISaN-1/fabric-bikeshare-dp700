@@ -17,10 +17,10 @@ Invoke Pipeline (bronze ingest, wait on completion)
 > usp_load_fact_bikepoint_status
 > usp_log_pipeline_run
 
-- Pipeline parameter `p_run_label` is passed to the notebook as a base parameter and to the run log
-- The notebook returns its row count with an exit value, which the log procedure stores
-- The refresh step comes before the gold procedures, otherwise they read a stale SQL endpoint
-- `etl_run_log` has one row per run, keyed by the pipeline run ID
+- The pipeline parameter `p_run_label` goes to the notebook as a base parameter and to the run log.
+- The notebook returns its row count as an exit value, and the log procedure stores it.
+- The refresh runs before the gold procedures. Without it they can read a stale SQL endpoint.
+- `etl_run_log` holds one row per run, keyed by the pipeline run ID.
 
 ## Design choices
 - Snapshot fact table, grain = station + ingest time

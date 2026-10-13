@@ -6,7 +6,7 @@ CREATE OR ALTER PROCEDURE gold.usp_log_pipeline_run
 AS
 BEGIN
     SET NOCOUNT ON;
-    -- The PK is NOT ENFORCED, so the engine will NOT stop a duplicate. This guard does.
+    -- The primary key is not enforced, so the engine will not stop a duplicate. This check does.
     IF NOT EXISTS (SELECT 1 FROM gold.etl_run_log WHERE pipeline_run_id = @pipeline_run_id)
         INSERT INTO gold.etl_run_log
             (pipeline_run_id, run_label, trigger_time_utc, silver_rows, logged_utc)
