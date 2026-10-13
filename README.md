@@ -1,1 +1,9 @@
-# fabric-bikeshare-dp700
+fabric-bikeshare-dp700/
+  README.md
+  notebooks/
+    nb_silver_bikepoints.py
+  warehouse/
+    01_tables.sql
+    02_usp_load_dim_station.sql
+    03_usp_load_fact_bikepoint_status.sql
+    04_vw_station_latest.sql
