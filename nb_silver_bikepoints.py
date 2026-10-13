@@ -2,15 +2,15 @@
 # coding: utf-8
 
 # ## nb_silver_bikepoints
-# 
-# null
+#
+# Bronze JSON (TfL BikePoint) to typed, deduplicated silver Delta tables.
 
 # In[1]:
 
 
 # Sanity checks on the session
 print(spark.version)                                 # expect 4.1.x (Runtime 2.0)
-print(spark.conf.get("spark.sql.ansi.enabled"))      # Spark 4 default is true: invalid casts THROW
+print(spark.conf.get("spark.sql.ansi.enabled"))      # false in this session: invalid casts return NULL, which is why silver uses try_cast
 print(spark.conf.get("spark.sql.session.timeZone"))  # zone used to DISPLAY timestamps
 
 
@@ -110,9 +110,10 @@ FROM dbo.bikepoint_status
 """).show()
 
 
-# In[1]:
+# In[7]:
 
 
+# Verification cell: read the Delta table directly to tell lakehouse data from SQL endpoint lag
 # 1. Direct read of the Delta table (skips the SQL endpoint, so no sync lag)
 spark.sql("SELECT MAX(ingested_utc) AS silver_max_direct FROM dbo.bikepoint_status").show(truncate=False)
 
